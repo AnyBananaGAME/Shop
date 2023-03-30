@@ -12,7 +12,7 @@ use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
 
-use pocketmine\block\VanillaBlocks;
+use pocketmine\block\VanillaBlocks as VB;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\item\ItemIds;
@@ -39,7 +39,7 @@ class ShopCommand extends Command implements PluginOwned {
         $menu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
         $inventory = $menu->getInventory();
 
-        $blockscat = VanillaBlocks::GRASS()->asItem();
+        $blockscat = VB::GRASS()->asItem();
         $blockscat->setCustomName("§r§l§7[ §r§cBlocks §r§l§7]§r");
 
         $armorcat = VanillaItems::DIAMOND_BOOTS();
@@ -91,19 +91,41 @@ class ShopCommand extends Command implements PluginOwned {
         $blocksmenu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
         $inventory = $blocksmenu->getInventory();
 
-        $grass = VanillaBlocks::GRASS()->asItem();
+        $grass = VB::GRASS()->asItem();
         $grass->setCustomName("§r§l§7[ §r§cGrass §r§l§7]§r");
-            $dirt = VanillaBlocks::DIRT()->asItem();
+            $dirt = VB::DIRT()->asItem();
             $dirt->setCustomName("§r§l§7[ §r§cDirt §r§l§7]§r");
-                $stone = VanillaBlocks::STONE()->asItem();
+                $stone = VB::STONE()->asItem();
                 $stone->setCustomName("§r§l§7[ §r§cStone §r§l§7]§r");
-                    $cobble = VanillaBlocks::COBBLESTONE()->asItem();
+                    $cobble = VB::COBBLESTONE()->asItem();
                     $cobble->setCustomName("§r§l§7[ §r§cCobblestone §r§l§7]§r");
+                        $diorite = VB::DIORITE()->asItem();
+                        $diorite->setCustomName("§r§l§7[ §r§cDiorite §r§l§7]§r");
+        $granite = VB::GRANITE()->asItem();
+        $granite->setCustomName("§r§l§7[ §r§cGranite §r§l§7]§r");
+            $andesite = VB::ANDESITE()->asItem();
+            $andesite->setCustomName("§r§l§7[ §r§cAndesite §r§l§7]§r");
+                $quartz = VB::QUARTZ()->asItem();
+                $quartz->setCustomName("§r§l§7[ §r§cQuartz §r§l§7]§r");
+                    $quarts_pillar = VB::QUARTZ_PILLAR()->asItem();
+                    $quarts_pillar->setCustomName("§r§l§7[ §r§cQuartz Pillar §r§l§7]§r");
+                        $chiseled_quartz = VB::CHISELED_QUARTZ()->asItem();
+                        $chiseled_quartz->setCustomName("§r§l§7[ §r§cChiseled Quartz §r§l§7]§r");
+        $smooth_quartz = VB::SMOOTH_QUARTZ()->asItem();
+        $smooth_quartz->setCustomName("§r§l§7[ §r§cSmooth Quartz §r§l§7]§r");
 
         $inventory->setItem(0, $grass);
         $inventory->setItem(1, $dirt);
         $inventory->setItem(2, $stone);
         $inventory->setItem(3, $cobble);
+        $inventory->setItem(4, $diorite);
+        $inventory->setItem(5, $granite);
+        $inventory->setItem(6, $andesite);
+
+        $inventory->setItem(9, $quartz);
+        $inventory->setItem(10, $quarts_pillar);
+        $inventory->setItem(11, $chiseled_quartz);
+        $inventory->setItem(12, $smooth_quartz);
 
         $blocksmenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
