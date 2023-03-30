@@ -1,0 +1,12 @@
+name: WPShop
+main: bonana\Main
+api: 4.0.0
+
+version: 0.0.1
+description: A shop Plugin
+
+
+permissions:
+  shop.command:
+    description: Open SHOP UI
+    default: true
