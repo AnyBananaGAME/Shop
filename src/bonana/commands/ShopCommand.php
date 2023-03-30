@@ -201,30 +201,30 @@ class ShopCommand extends Command implements PluginOwned {
         $dia_boots = VI::DIAMOND_BOOTS();
         $dia_boots->setCustomName("§r§l§7[§r§c Diamond Boots §r§l§7]§r");
 
-        $inventory->setItem(0, $leather_helmet);
-        $inventory->setItem(9, $leather_chestplace);
-        $inventory->setItem(18, $leather_leggings);
-        $inventory->setItem(27, $leather_boots);
+        $inventory->setItem(9, $leather_helmet);
+        $inventory->setItem(18, $leather_chestplace);
+        $inventory->setItem(27, $leather_leggings);
+        $inventory->setItem(36, $leather_boots);
 
-        $inventory->setItem(1, $chain_helmet);
-        $inventory->setItem(10, $chain_chestplace);
-        $inventory->setItem(19, $chain_leggings);
-        $inventory->setItem(28, $chain_boots);
+        $inventory->setItem(10, $chain_helmet);
+        $inventory->setItem(19, $chain_chestplace);
+        $inventory->setItem(28, $chain_leggings);
+        $inventory->setItem(37, $chain_boots);
 
-        $inventory->setItem(2, $iron_helmet);
-        $inventory->setItem(11, $iron_chestplace);
-        $inventory->setItem(20, $iron_leggings);
-        $inventory->setItem(29, $iron_boots);
+        $inventory->setItem(11, $iron_helmet);
+        $inventory->setItem(20, $iron_chestplace);
+        $inventory->setItem(29, $iron_leggings);
+        $inventory->setItem(38, $iron_boots);
 
-        $inventory->setItem(3, $gold_helmet);
-        $inventory->setItem(12, $gold_chestplace);
-        $inventory->setItem(21, $gold_leggings);
-        $inventory->setItem(30, $gold_boots);
+        $inventory->setItem(12, $gold_helmet);
+        $inventory->setItem(21, $gold_chestplace);
+        $inventory->setItem(30, $gold_leggings);
+        $inventory->setItem(39, $gold_boots);
 
-        $inventory->setItem(4, $dia_helmet);
-        $inventory->setItem(13, $dia_chestplace);
-        $inventory->setItem(22, $dia_leggings);
-        $inventory->setItem(31, $dia_boots);
+        $inventory->setItem(13, $dia_helmet);
+        $inventory->setItem(22, $dia_chestplace);
+        $inventory->setItem(31, $dia_leggings);
+        $inventory->setItem(40, $dia_boots);
 
 
 
