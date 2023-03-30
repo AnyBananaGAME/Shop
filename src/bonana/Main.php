@@ -27,6 +27,7 @@ class Main extends PluginBase {
         $this->getServer()->getCommandMap()->registerAll("shop", [
 			new ShopCommand($this),
 		]);
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 
 
 
