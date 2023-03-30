@@ -155,6 +155,16 @@ class ShopCommand extends Command implements PluginOwned {
         $armormenu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
         $inventory = $armormenu->getInventory();
 
+        
+        $leather_helmet = VI::LEATHER_CAP();
+        $leather_helmet->setCustomName("§r§l§7[§r§c Leather Helmet §r§l§7]§r");
+        $leather_chestplace = VI::LEATHER_TUNIC();
+        $leather_chestplace->setCustomName("§r§l§7[§r§c Leather Chestplate §r§l§7]§r");
+        $leather_leggings = VI::LEATHER_PANTS();
+        $leather_leggings->setCustomName("§r§l§7[§r§c Leather Leggings §r§l§7]§r");
+        $leather_boots = VI::LEATHER_BOOTS();
+        $leather_boots->setCustomName("§r§l§7[§r§c Leather Boots §r§l§7]§r");
+
         $chain_helmet = VI::CHAINMAIL_HELMET();
         $chain_helmet->setCustomName("§r§l§7[ §r§cChainmail Helmet §r§l§7]§r");
         $chain_chestplace = VI::CHAINMAIL_CHESTPLATE();
@@ -164,12 +174,59 @@ class ShopCommand extends Command implements PluginOwned {
         $chain_boots = VI::CHAINMAIL_BOOTS();
         $chain_boots->setCustomName("§r§l§7[ §r§cChainmail Boots §r§l§7]§r");
 
+        $gold_helmet = VI::GOLDEN_HELMET();
+        $gold_helmet->setCustomName("§r§l§7[§r§c Golden Helmet §r§l§7]§r");
+        $gold_chestplace = VI::GOLDEN_CHESTPLATE();
+        $gold_chestplace->setCustomName("§r§l§7[§r§c Golden Chestplate §r§l§7]§r");
+        $gold_leggings = VI::GOLDEN_LEGGINGS();
+        $gold_leggings->setCustomName("§r§l§7[§r§c Golden Leggings §r§l§7]§r");
+        $gold_boots = VI::GOLDEN_BOOTS();
+        $gold_boots->setCustomName("§r§l§7[§r§c Golden Boots §r§l§7]§r");
+
+        $iron_helmet = VI::IRON_HELMET();
+        $iron_helmet->setCustomName("§r§l§7[§r§c Iron Helmet §r§l§7]§r");
+        $iron_chestplace = VI::IRON_CHESTPLATE();
+        $iron_chestplace->setCustomName("§r§l§7[§r§c Iron Chestplate §r§l§7]§r");
+        $iron_leggings = VI::IRON_LEGGINGS();
+        $iron_leggings->setCustomName("§r§l§7[§r§c Iron Leggings §r§l§7]§r");
+        $iron_boots = VI::IRON_BOOTS();
+        $iron_boots->setCustomName("§r§l§7[§r§c Iron Boots §r§l§7]§r");
+
+        $dia_helmet = VI::DIAMOND_HELMET();
+        $dia_helmet->setCustomName("§r§l§7[§r§c Diamond Helmet §r§l§7]§r");
+        $dia_chestplace = VI::DIAMOND_CHESTPLATE();
+        $dia_chestplace->setCustomName("§r§l§7[§r§c Diamond Chestplate §r§l§7]§r");
+        $dia_leggings = VI::DIAMOND_LEGGINGS();
+        $dia_leggings->setCustomName("§r§l§7[§r§c Diamond Leggings §r§l§7]§r");
+        $dia_boots = VI::DIAMOND_BOOTS();
+        $dia_boots->setCustomName("§r§l§7[§r§c Diamond Boots §r§l§7]§r");
+
+        $inventory->setItem(0, $leather_helmet);
+        $inventory->setItem(9, $leather_chestplace);
+        $inventory->setItem(18, $leather_leggings);
+        $inventory->setItem(27, $leather_boots);
+
+        $inventory->setItem(1, $chain_helmet);
+        $inventory->setItem(10, $chain_chestplace);
+        $inventory->setItem(19, $chain_leggings);
+        $inventory->setItem(28, $chain_boots);
+
+        $inventory->setItem(2, $iron_helmet);
+        $inventory->setItem(11, $iron_chestplace);
+        $inventory->setItem(20, $iron_leggings);
+        $inventory->setItem(29, $iron_boots);
+
+        $inventory->setItem(3, $gold_helmet);
+        $inventory->setItem(12, $gold_chestplace);
+        $inventory->setItem(21, $gold_leggings);
+        $inventory->setItem(30, $gold_boots);
+
+        $inventory->setItem(4, $dia_helmet);
+        $inventory->setItem(13, $dia_chestplace);
+        $inventory->setItem(22, $dia_leggings);
+        $inventory->setItem(31, $dia_boots);
 
 
-        $inventory->setItem(0, $chain_helmet);
-        $inventory->setItem(9, $chain_chestplace);
-        $inventory->setItem(18, $chain_leggings);
-        $inventory->setItem(27, $chain_boots);
 
         $armormenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
