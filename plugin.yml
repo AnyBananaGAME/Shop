@@ -10,3 +10,9 @@ permissions:
   shop.command:
     description: Open SHOP UI
     default: true
+  xp.command.give:
+    description: Give a player XP
+    default: op
+  xp.command:
+    description: Check your XP
+    default: true

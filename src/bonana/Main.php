@@ -7,7 +7,8 @@ namespace bonana;
 use pocketmine\plugin\PluginBase;
 use muqsit\invmenu\InvMenuHandler;
 use bonana\commands\ShopCommand;
-
+use bonana\commands\GiveXPCommand;
+use bonana\commands\XPCommand;
 
 class Main extends PluginBase {
     private static self $instance;
@@ -27,6 +28,11 @@ class Main extends PluginBase {
         $this->getServer()->getCommandMap()->registerAll("shop", [
 			new ShopCommand($this),
 		]);
+        $this->getServer()->getCommandMap()->registerAll("xp", [
+            new XPCommand($this),
+            new GiveXPCommand($this),
+        ]);
+
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 
 

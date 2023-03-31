@@ -1,3 +1,7 @@
 # It's not finished (Still working on it!)
-## I made this just for fun
-## I don't know if its a good idea to use this.
+
+```
+It's about 50% done
+
+Prob not the best idea to use it as this is my first public plugin
+```

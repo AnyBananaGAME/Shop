@@ -332,8 +332,13 @@ class ShopCommand extends Command implements PluginOwned {
         $buy1 = VB::STAINED_GLASS()->setColor(DyeColor::GREEN())->asItem();
         $buy1->setCustomName("§7Purchase §c1x §a$NMN\n\n§7Buy §c1x §7 for §c$cost");
 
+        $back = VI::ARROW();
+        $back->setCustomName("§l§c<- Back");
+
 
         $inventory->setItem(11, $buy1);
+        $inventory->setItem(40, $back);
+
         $pitem = $item;
         $this->iitem = $pitem;
         $this->imenu = $purchasemenu;
@@ -348,6 +353,9 @@ class ShopCommand extends Command implements PluginOwned {
                     $this->confirmPurchase($this->iitem, $player, 1, $this->imenu);
                     $player->sendMessage('You clicked \nID' . $item->getId() . "\nMETA: ". $item->getMeta());
                     break; 
+                case 262:
+                    $this->mainMenu($player);
+                    break;
             }
 
 
