@@ -303,8 +303,10 @@ class ShopCommand extends Command implements PluginOwned {
         $armormenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            $this->openPurchaseMenu($item, $player);
+            if($item->getId() == 160) return;
 
+            $this->openPurchaseMenu($item, $player);
+            $player->sendMessage("id: ".$item->getId());
 
             if($callable !== null){
                 return $callable($tr);
@@ -325,7 +327,8 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(22, $item);
         $NMN = $item->getName();
         $id = $item->getId();   
-        $cost = $this->config["cost"][$id];
+        // $cost = $this->config["cost"][$id];
+        $cost = 100;
         $buy1 = VB::STAINED_GLASS()->setColor(DyeColor::GREEN())->asItem();
         $buy1->setCustomName("§7Purchase §c1x §a$NMN\n\n§7Buy §c1x §7 for §c$cost");
 
@@ -342,7 +345,7 @@ class ShopCommand extends Command implements PluginOwned {
             
             switch($item->getId()){
                 case 241:
-                    $this->confirmPurchase($this->iitem, $player, 1, $this->imenu);
+                    // $this->confirmPurchase($this->iitem, $player, 1, $this->imenu);
                     $player->sendMessage('You clicked \nID' . $item->getId() . "\nMETA: ". $item->getMeta());
                     break; 
             }
