@@ -13,6 +13,7 @@ use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
 
 use pocketmine\block\VanillaBlocks as VB;
+use pocketmine\block\utils\DyeColor;
 use pocketmine\item\VanillaItems as VI;
 use pocketmine\player\Player;
 use pocketmine\item\ItemIds;
@@ -201,6 +202,43 @@ class ShopCommand extends Command implements PluginOwned {
         $dia_boots = VI::DIAMOND_BOOTS();
         $dia_boots->setCustomName("§r§l§7[§r§c Diamond Boots §r§l§7]§r");
 
+
+
+        $dia_sword = VI::DIAMOND_SWORD();
+        $dia_sword->setCustomName("§r§l§7[§r§c Diamond Sword §r§l§7]§r");
+        $dia_axe = VI::DIAMOND_AXE();
+        $dia_axe->setCustomName("§r§l§7[§r§c Diamond Axe §r§l§7]§r");
+        $dia_pickaxe = VI::DIAMOND_PICKAXE();
+        $dia_pickaxe->setCustomName("§r§l§7[§r§c Diamond Pickaxe §r§l§7]§r");
+
+
+        $iron_sword = VI::IRON_SWORD();
+        $iron_sword->setCustomName("§r§l§7[§r§c Iron Sword §r§l§7]§r");
+        $iron_axe = VI::IRON_AXE();
+        $iron_axe->setCustomName("§r§l§7[§r§c Iron Axe §r§l§7]§r");
+        $iron_pickaxe = VI::IRON_PICKAXE();
+        $iron_pickaxe->setCustomName("§r§l§7[§r§c Iron Pickaxe §r§l§7]§r");
+
+
+        $gold_sword = VI::GOLDEN_SWORD();
+        $gold_sword->setCustomName("§r§l§7[§r§c Golden Sword §r§l§7]§r");
+        $gold_axe = VI::GOLDEN_AXE();
+        $gold_axe->setCustomName("§r§l§7[§r§c Golden Axe §r§l§7]§r");
+        $gold_pickaxe = VI::GOLDEN_PICKAXE();
+        $gold_pickaxe->setCustomName("§r§l§7[§r§c Golden Pickaxe §r§l§7]§r");
+
+
+        $stone_sword = VI::STONE_SWORD();
+        $stone_sword->setCustomName("§r§l§7[§r§c Stone Sword §r§l§7]§r");
+        $stone_axe = VI::STONE_AXE();
+        $stone_axe->setCustomName("§r§l§7[§r§c Stone Axe §r§l§7]§r");
+        $stone_pickaxe = VI::STONE_PICKAXE();
+        $stone_pickaxe->setCustomName("§r§l§7[§r§c Stone Pickaxe §r§l§7]§r");
+
+        $glass = VB::STAINED_GLASS_PANE()->setColor(DyeColor::GRAY())->asItem();
+        $glass->setCustomName(" ");
+
+
         $inventory->setItem(9, $leather_helmet);
         $inventory->setItem(18, $leather_chestplace);
         $inventory->setItem(27, $leather_leggings);
@@ -227,6 +265,33 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(40, $dia_boots);
 
 
+        $inventory->setItem(15, $dia_pickaxe);
+        $inventory->setItem(16, $dia_axe);
+        $inventory->setItem(17, $dia_sword);
+
+        $inventory->setItem(24, $iron_pickaxe);
+        $inventory->setItem(25, $iron_axe);
+        $inventory->setItem(26, $iron_sword);
+
+        $inventory->setItem(33, $gold_pickaxe);
+        $inventory->setItem(34, $gold_axe);
+        $inventory->setItem(35, $gold_sword);
+
+        $inventory->setItem(42, $stone_pickaxe);
+        $inventory->setItem(43, $stone_axe);
+        $inventory->setItem(44, $stone_sword);
+
+        for($x = 0; $x < 9; $x++) {
+            $inventory->setItem($x, $glass);
+        }
+        for($x = 45; $x < 54; $x++) {
+            $inventory->setItem($x, $glass);
+        }
+        $inventory->setItem(5, $glass);
+        $inventory->setItem(14, $glass);
+        $inventory->setItem(23, $glass);
+        $inventory->setItem(32, $glass);
+        $inventory->setItem(41, $glass);
 
         $armormenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
