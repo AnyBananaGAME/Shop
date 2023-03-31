@@ -145,11 +145,9 @@ class ShopCommand extends Command implements PluginOwned {
         $blocksmenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            switch($item->getId()){
-                case ItemIds::GRASS:
-                    $player->sendMessage('You clicked GRASS 111');
-                    break; 
-            }
+            
+            // $player->sendMessage("id ".$item->getId());
+            $this->openPurchaseMenu($item, $player);
             if($callable !== null){
                 return $callable($tr);
             }
@@ -332,11 +330,18 @@ class ShopCommand extends Command implements PluginOwned {
         $buy1 = VB::STAINED_GLASS()->setColor(DyeColor::GREEN())->asItem();
         $buy1->setCustomName("§7Purchase §c1x §a$NMN\n\n§7Buy §c1x §7 for §c$cost");
 
+        $stack = $item->getMaxStackSize();
+
+        $buystack = VB::STAINED_GLASS()->setColor(DyeColor::ORANGE())->asItem();
+        $buystack->setCustomName("§7Purchase §c$stack §a$NMN\n\n§7Buy §c$stack §7 for §c$cost");
+
         $back = VI::ARROW();
         $back->setCustomName("§l§c<- Back");
 
 
         $inventory->setItem(11, $buy1);
+        $inventory->setItem(20, $buystack);
+
         $inventory->setItem(40, $back);
 
         $pitem = $item;
@@ -348,15 +353,21 @@ class ShopCommand extends Command implements PluginOwned {
             $item = $tr->getItemClicked();
             $player->sendMessage($item->getId());
             
-            switch($item->getId()){
-                case 241:
+            $stack = $this->iitem->getMaxStackSize();
+
+            if($item->getId() == 241){
+                if($item->getMeta() == 13){
                     $this->confirmPurchase($this->iitem, $player, 1, $this->imenu);
-                    $player->sendMessage('You clicked \nID' . $item->getId() . "\nMETA: ". $item->getMeta());
-                    break; 
-                case 262:
-                    $this->mainMenu($player);
-                    break;
+                }
+                if($item->getMeta() == 1){
+                    $this->confirmPurchase($this->iitem, $player, $stack, $this->imenu);
+                }
             }
+            if($item->getId() == 262){
+                $this->mainMenu($player);
+
+            }
+          
 
 
             if($callable !== null){
@@ -388,7 +399,9 @@ class ShopCommand extends Command implements PluginOwned {
             $ii = ItemFactory::getInstance()->get($id);
             $vector3Pos = new Vector3($playerX, $playerY, $playerZ);
             if($playerInventory->canAddItem($ii)) {
-                $playerInventory->addItem($ii);
+                for($x = 0; $x < $amount; $x++) {
+                    $playerInventory->addItem($ii);
+                }
                 $player->getXpManager()->addXp(-$totalCost, false);
                 $player->sendMessage("§7§l[§aSUCCESS§7] §r§7You have purchased x§c$amount §a| §c$IM");
             } else {
