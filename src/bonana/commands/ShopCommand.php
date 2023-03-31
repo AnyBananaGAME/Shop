@@ -296,17 +296,54 @@ class ShopCommand extends Command implements PluginOwned {
         $armormenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            switch($item->getId()){
-                case ItemIds::CHAINMAIL_HELMET:
-                    $player->sendMessage('You cant buy yet');
-                    break; 
-            }
+            $this->openPurchaseMenu($item, $player);
+
+
             if($callable !== null){
                 return $callable($tr);
             }
             return $tr->discard();
         });
         return $armormenu->send($player);
+    }
+
+
+    public function openPurchaseMenu($item, Player $player, ?callable $callable = null){
+        $purchasemenu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
+        $purchasemenu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
+        $inventory = $purchasemenu->getInventory();
+
+
+        
+        $inventory->setItem(22, $item);
+        $NMN = $item->getName();
+
+
+        $buy1 = VB::STAINED_GLASS()->setColor(DyeColor::GREEN())->asItem();
+        $buy1->setCustomName("§7Purchase §c1x §a$NMN");
+
+
+        $inventory->setItem(11, $buy1);
+
+        $purchasemenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
+            $player = $tr->getPlayer();
+            $item = $tr->getItemClicked();
+            $player->sendMessage($item->getId());
+
+            switch($item->getId()){
+                case 241:
+                    $player->sendMessage('You clicked '. $item->getMeta());
+                    break; 
+            }
+
+
+            if($callable !== null){
+                return $callable($tr);
+            }
+            return $tr->discard();
+        });
+        return $purchasemenu->send($player);
+
     }
 
 }

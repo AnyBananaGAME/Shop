@@ -24,7 +24,11 @@ class EventListener implements Listener {
 	public function onBreak(BlockBreakEvent $event): void {
 		$player = $event->getPlayer();
         $server = $event->getPlayer()->getServer();
-        $this->plugin->getServer()->getCommandMap()->dispatch($player, "shop");
+        $blockID = $event->getBlock()->getId();
+        $blockMETA = $event->getBlock()->getMeta();
+
+        $player->sendMessage("id " . $blockID . "\nmeta ". $blockMETA);
+       //  $this->plugin->getServer()->getCommandMap()->dispatch($player, "shop");
     }
 
 
