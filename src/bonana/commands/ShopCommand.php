@@ -9,12 +9,15 @@ use pocketmine\plugin\PluginOwnedTrait;
 use pocketmine\utils\TextFormat as TF;
 
 use muqsit\invmenu\InvMenu;
+use muqsit\invmenu\InvMenuHandler;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
 
 use pocketmine\block\VanillaBlocks as VB;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\item\VanillaItems as VI;
+use pocketmine\item\ItemFactory;
+use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\item\ItemIds;
 use bonana\Main;
@@ -22,12 +25,16 @@ use bonana\Main;
 class ShopCommand extends Command implements PluginOwned {
 
     use PluginOwnedTrait;
+	private array $config;
+    private $iitem;
+    private $imenu;
 
 	public function __construct(Main $plugin) {
 		$this->owningPlugin = $plugin;
 		parent::__construct("shop", "Open Shop", "/shop");
 		$this->setPermission("shop.command");
 		$this->setDescription("Open Shop!");
+        $this->config = $plugin->getConfig()->getAll();
 	}
 
 	public function execute(CommandSender $sender, string $commandLabel, array $args, ?callable $callable = null): void {
@@ -317,22 +324,26 @@ class ShopCommand extends Command implements PluginOwned {
         
         $inventory->setItem(22, $item);
         $NMN = $item->getName();
-
-
+        $id = $item->getId();   
+        $cost = $this->config["cost"][$id];
         $buy1 = VB::STAINED_GLASS()->setColor(DyeColor::GREEN())->asItem();
-        $buy1->setCustomName("§7Purchase §c1x §a$NMN");
+        $buy1->setCustomName("§7Purchase §c1x §a$NMN\n\n§7Buy §c1x §7 for §c$cost");
 
 
         $inventory->setItem(11, $buy1);
+        $pitem = $item;
+        $this->iitem = $pitem;
+        $this->imenu = $purchasemenu;
 
-        $purchasemenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
+        $purchasemenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult {
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
             $player->sendMessage($item->getId());
-
+            
             switch($item->getId()){
                 case 241:
-                    $player->sendMessage('You clicked '. $item->getMeta());
+                    $this->confirmPurchase($this->iitem, $player, 1, $this->imenu);
+                    $player->sendMessage('You clicked \nID' . $item->getId() . "\nMETA: ". $item->getMeta());
                     break; 
             }
 
@@ -343,6 +354,38 @@ class ShopCommand extends Command implements PluginOwned {
             return $tr->discard();
         });
         return $purchasemenu->send($player);
+
+    }
+
+    public function confirmPurchase($item, Player $player, $amount, $menu){
+        $id = $item->getId();   
+        $cost = $this->config["cost"][$id];
+        $xp = $player->getXpManager()->getCurrentTotalXp();
+        $totalCost = $cost*$amount;
+        $IM = $item->getName();
+        $playerInventory = $player->getInventory();
+
+
+
+        $playerX = $player->getPosition()->getX();
+        $playerY = $player->getPosition()->getY();
+        $playerZ = $player->getPosition()->getZ();
+
+        if($xp < $totalCost){
+            return $player->sendMessage("§7§l[§cFAIL§7] §r§7You can not afford x§c$amount §a| §c$IM");
+        } else {
+            $ii = ItemFactory::getInstance()->get($id);
+            $vector3Pos = new Vector3($playerX, $playerY, $playerZ);
+            if($playerInventory->canAddItem($ii)) {
+                $playerInventory->addItem($ii);
+                $player->getXpManager()->addXp(-$totalCost, false);
+                $player->sendMessage("§7§l[§aSUCCESS§7] §r§7You have purchased x§c$amount §a| §c$IM");
+            } else {
+                InvMenuHandler::getPlayerManager()->get($player)->removeCurrentMenu();
+                $player->sendMessage(TF::RED . "Your inventory is full!");
+            }
+           }
+
 
     }
 
