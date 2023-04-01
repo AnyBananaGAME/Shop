@@ -365,7 +365,6 @@ class ShopCommand extends Command implements PluginOwned {
         $purchasemenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult {
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            $player->sendMessage($item->getId());
             
             $stack = $this->iitem->getMaxStackSize();
 
