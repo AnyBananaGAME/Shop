@@ -53,12 +53,8 @@ class ShopCommand extends Command implements PluginOwned {
         $armorcat = VI::DIAMOND_BOOTS();
         $armorcat->setCustomName("§r§l§7[ §r§cArmor §r§l§7]§r");
 
-        $toolscat = VI::DIAMOND_PICKAXE();
-        $toolscat->setCustomName("§r§l§7[ §r§cTools §r§l§7]§r");
-
         $inventory->setItem(0, $blockscat);
         $inventory->setItem(1, $armorcat);
-        $inventory->setItem(2, $toolscat);
 
         $menu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
@@ -243,6 +239,10 @@ class ShopCommand extends Command implements PluginOwned {
         $glass = VB::STAINED_GLASS_PANE()->setColor(DyeColor::GRAY())->asItem();
         $glass->setCustomName(" ");
 
+        $back = VI::ARROW();
+        $back->setCustomName("§l§c<- Back");
+
+
 
         $inventory->setItem(9, $leather_helmet);
         $inventory->setItem(18, $leather_chestplace);
@@ -286,6 +286,8 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(43, $stone_axe);
         $inventory->setItem(44, $stone_sword);
 
+        $inventory->setItem(50, $back);
+
         for($x = 0; $x < 9; $x++) {
             $inventory->setItem($x, $glass);
         }
@@ -302,10 +304,11 @@ class ShopCommand extends Command implements PluginOwned {
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
             if($item->getId() == 160) return true;
-
-            $this->openPurchaseMenu($item, $player);
-            $player->sendMessage("id: ".$item->getId());
-
+            if($item->getId() == 262){
+                $this->mainMenu($player);
+            } else {
+                $this->openPurchaseMenu($item, $player);
+            }
             if($callable !== null){
                 return $callable($tr);
             }
@@ -328,12 +331,18 @@ class ShopCommand extends Command implements PluginOwned {
         $cost = $this->config["cost"][$id];
         // $cost = 100;
         $buy1 = VB::STAINED_GLASS()->setColor(DyeColor::GREEN())->asItem();
-        $buy1->setCustomName("§7Purchase §c1x §a$NMN\n\n§7Buy §c1x §7 for §c$cost");
+        $buy1->setCustomName("§7Purchase §cx1 §a$NMN\n\n§7Buy §cx1 §7 for §c$cost");
 
         $stack = $item->getMaxStackSize();
 
+        $stackcost = $stack*$cost;
         $buystack = VB::STAINED_GLASS()->setColor(DyeColor::ORANGE())->asItem();
-        $buystack->setCustomName("§7Purchase §c$stack §a$NMN\n\n§7Buy §c$stack §7 for §c$cost");
+        $buystack->setCustomName("§7Purchase §cx$stack  §a$NMN\n\n§7Buy §cx$stack §7 for §c$stackcost");
+
+        $invcost = $stack*$cost;
+        $buyinv = VB::STAINED_GLASS()->setColor(DyeColor::RED())->asItem();
+        $buyinv->setCustomName("§7Purchase §cx$stack  §a$NMN\n\n§7Buy §cx$stack §7 for §c$stackcost");
+
 
         $back = VI::ARROW();
         $back->setCustomName("§l§c<- Back");
@@ -379,14 +388,17 @@ class ShopCommand extends Command implements PluginOwned {
 
     }
 
+
+
     public function confirmPurchase($item, Player $player, $amount, $menu){
         $id = $item->getId();   
         $cost = $this->config["cost"][$id];
         $xp = $player->getXpManager()->getCurrentTotalXp();
         $totalCost = $cost*$amount;
         $IM = $item->getName();
-        $playerInventory = $player->getInventory();
 
+        $playerInventory = $player->getInventory();
+        $contents = $playerInventory->getContents();
 
 
         $playerX = $player->getPosition()->getX();
