@@ -48,13 +48,18 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory = $menu->getInventory();
 
         $blockscat = VB::GRASS()->asItem();
-        $blockscat->setCustomName("§r§l§7[ §r§cBlocks §r§l§7]§r");
+        $blockscat->setCustomName("§r§l§7[§r§c Blocks §r§l§7]§r");
 
         $armorcat = VI::DIAMOND_BOOTS();
-        $armorcat->setCustomName("§r§l§7[ §r§cArmor §r§l§7]§r");
+        $armorcat->setCustomName("§r§l§7[§r§c Armor §r§l§7]§r");
+
+        $foodcat = VI::STEAK();
+        $foodcat->setCustomName("§r§l§7[§r§c Food §r§l§7]§r");
+
 
         $inventory->setItem(0, $blockscat);
         $inventory->setItem(1, $armorcat);
+        $inventory->setItem(2, $foodcat);
 
         $menu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
@@ -62,15 +67,12 @@ class ShopCommand extends Command implements PluginOwned {
 
             switch($item->getId()){
                 case ItemIds::GRASS:
-                    $player->sendMessage('You clicked GRASS');
                     $this->blockMenu($player);
                     break;
                 case ItemIds::DIAMOND_BOOTS:
-                    $player->sendMessage('You clicked DIAMOND_BOOTS');
                     $this->armorMenu($player);
                     break;  
-                case ItemIds::DIAMOND_PICKAXE:
-                    $player->sendMessage('You clicked DIAMOND_PICKAXE');
+                case ItemIds::STEAK:
                     $toolsmenu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
                     $toolsmenu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
 
