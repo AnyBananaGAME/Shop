@@ -286,7 +286,6 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(43, $stone_axe);
         $inventory->setItem(44, $stone_sword);
 
-        $inventory->setItem(50, $back);
 
         for($x = 0; $x < 9; $x++) {
             $inventory->setItem($x, $glass);
@@ -299,11 +298,14 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(23, $glass);
         $inventory->setItem(32, $glass);
         $inventory->setItem(41, $glass);
+        $inventory->setItem(50, $back);
 
         $armormenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            if($item->getId() == 160) return true;
+            if($item->getId() == 160){
+                return $tr->discard();
+            }
             if($item->getId() == 262){
                 $this->mainMenu($player);
             } else {
