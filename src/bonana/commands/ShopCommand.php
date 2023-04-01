@@ -138,12 +138,18 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(11, $chiseled_quartz);
         $inventory->setItem(12, $smooth_quartz);
 
+        $back = VI::ARROW();
+        $back->setCustomName("§l§c<- Back");
+        $inventory->setItem(49, $back);
+
         $blocksmenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            
-            // $player->sendMessage("id ".$item->getId());
-            $this->openPurchaseMenu($item, $player);
+            if($item->getId() == 262){
+                $this->mainMenu($player);
+            } else {
+                $this->openPurchaseMenu($item, $player);
+            }
             if($callable !== null){
                 return $callable($tr);
             }
