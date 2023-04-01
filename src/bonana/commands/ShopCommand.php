@@ -73,10 +73,7 @@ class ShopCommand extends Command implements PluginOwned {
                     $this->armorMenu($player);
                     break;  
                 case ItemIds::STEAK:
-                    $toolsmenu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
-                    $toolsmenu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
-
-                    $toolsmenu->send($player);
+                    $this->foodMenu($player);
                     break;
             }
 
@@ -326,8 +323,6 @@ class ShopCommand extends Command implements PluginOwned {
         });
         return $armormenu->send($player);
     }
-
-
     public function openPurchaseMenu($item, Player $player, ?callable $callable = null){
         $purchasemenu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
         $purchasemenu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
@@ -397,9 +392,6 @@ class ShopCommand extends Command implements PluginOwned {
         return $purchasemenu->send($player);
 
     }
-
-
-
     public function confirmPurchase($item, Player $player, $amount, $menu){
         $id = $item->getId();   
         $cost = $this->config["cost"][$id];
@@ -431,6 +423,91 @@ class ShopCommand extends Command implements PluginOwned {
                 $player->sendMessage(TF::RED . "Your inventory is full!");
             }
            }
+
+
+    }
+    public function foodMenu(Player $player, ?callable $callable = null){
+        $foodmenu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
+        $foodmenu->setName(TF::RED . "WP " . TF::GREEN ."Shop");
+        $inventory = $foodmenu->getInventory();
+
+        $steak = VI::STEAK();
+        $steak->setCustomName("§r§l§7[§r§c Steak §r§l§7]§r");
+        $porkchop = VI::COOKED_PORKCHOP();
+        $porkchop->setCustomName("§r§l§7[§r§c Cooked Porkchop §r§l§7]§r");
+        $chicken = VI::COOKED_CHICKEN();
+        $chicken->setCustomName("§r§l§7[§r§c Cooked Chicken §r§l§7]§r");
+        $mutton = VI::COOKED_MUTTON();
+        $mutton->setCustomName("§r§l§7[§r§c Cooked Mutton §r§l§7]§r");
+        $rabbit = VI::COOKED_RABBIT();
+        $rabbit->setCustomName("§r§l§7[§r§c Cooked Rabbit §r§l§7]§r");
+        $salmon = VI::COOKED_SALMON();
+        $salmon->setCustomName("§r§l§7[§r§c Cooked Salmon §r§l§7]§r");
+        $fish = VI::COOKED_FISH();
+        $fish->setCustomName("§r§l§7[§r§c Cooked Cod §r§l§7]§r");
+
+        $bread = VI::BREAD();
+        $bread->setCustomName("§r§l§7[§r§c Bread §r§l§7]§r");
+        $gcarrot = VI::GOLDEN_CARROT();
+        $gcarrot->setCustomName("§r§l§7[§r§c Golden Carrot §r§l§7]§r");
+
+
+
+        $mstew = VI::MUSHROOM_STEW();
+        $mstew->setCustomName("§r§l§7[§r§c Mushroom Stew §r§l§7]§r");
+        $rstew = VI::RABBIT_STEW();
+        $rstew->setCustomName("§r§l§7[§r§c Rabbit Stew §r§l§7]§r");
+        $bsoup = VI::BEETROOT_SOUP();
+        $bsoup->setCustomName("§r§l§7[§r§c Beetroot Soup §r§l§7]§r");
+        $bpotato = VI::BAKED_POTATO();
+        $bpotato->setCustomName("§r§l§7[§r§c Baked Potato §r§l§7]§r");
+        $cookie = VI::COOKIE();
+        $cookie->setCustomName("§r§l§7[§r§c Cookie §r§l§7]§r");
+        $ppie = VI::PUMPKIN_PIE();
+        $ppie->setCustomName("§r§l§7[§r§c Pumpkin Pie §r§l§7]§r");
+        $cake = VB::CAKE()->asItem();
+        $cake->setCustomName("§r§l§7[§r§c Cake §r§l§7]§r");  
+        $dkelp = VI::DRIED_KELP();
+        $dkelp->setCustomName("§r§l§7[§r§c Dried Kelp §r§l§7]§r");
+        $gapple = VI::GOLDEN_APPLE();
+        $gapple->setCustomName("§r§l§7[§r§c Golden Apple §r§l§7]§r");
+        $back = VI::ARROW();
+        $back->setCustomName("§l§c<- Back");
+
+        $inventory->setItem(0, $steak);
+        $inventory->setItem(1, $porkchop);
+        $inventory->setItem(2, $chicken);
+        $inventory->setItem(3, $mutton);
+        $inventory->setItem(4, $rabbit);
+        $inventory->setItem(5, $salmon);
+        $inventory->setItem(6, $fish);
+        $inventory->setItem(7, $bread);
+        $inventory->setItem(8, $mstew);
+        $inventory->setItem(9, $rstew);
+        $inventory->setItem(10, $bsoup);
+        $inventory->setItem(11, $bpotato);
+        $inventory->setItem(12, $cookie);
+        $inventory->setItem(13, $ppie);
+        $inventory->setItem(14, $cake);
+        $inventory->setItem(15, $dkelp);
+        $inventory->setItem(16, $gapple);
+        $inventory->setItem(17, $gcarrot);
+        $inventory->setItem(49, $back);
+
+        $foodmenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
+            $player = $tr->getPlayer();
+            $item = $tr->getItemClicked();
+            if($item->getId() == 262){
+                $this->mainMenu($player);
+            } else {
+                $this->openPurchaseMenu($item, $player);
+            }
+            if($callable !== null){
+                return $callable($tr);
+            }
+            return $tr->discard();
+        });
+        return $foodmenu->send($player);
 
 
     }
