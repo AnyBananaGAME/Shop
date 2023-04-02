@@ -28,13 +28,13 @@ class GiveXPCommand extends Command implements PluginOwned
     {
         if(!isset($args[0])) {
             $sender->sendMessage(TF::RED . "You must provide some arguments!" . TF::EOL . "Usage: /givexp <player> <amount>");
-            return false;
+            return true;
         } elseif(!$this->getOwningPlugin()->getServer()->getPlayerExact($args[0])) {
             $sender->sendMessage(TF::RED . "You must provide a valid player!");
-            return false;
+            return true;
         } elseif(!isset($args[1]) || !is_numeric($args[1])) {
             $sender->sendMessage(TF::RED . "You must provide a valid amount!");
-            return false;
+            return true;
         }
         $player = $this->getOwningPlugin()->getServer()->getPlayerExact($args[0]);
         $amount = (int)$args[1];
@@ -43,7 +43,7 @@ class GiveXPCommand extends Command implements PluginOwned
         // $player->getXpManager()->getCurrentTotalXp()
         $player->sendMessage("You have been given $amount xp");
         $sender->sendMessage("You have given $args[0] $amount xp");
-        return true;
+        return false;
     }
 
 
