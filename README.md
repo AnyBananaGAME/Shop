@@ -1,6 +1,6 @@
 # It's not finished (Still working on it!)
 
-```
+```diff
 It's about 80% done
 + OtterECO support is added but not yet pushed 
 
