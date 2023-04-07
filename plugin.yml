@@ -2,13 +2,12 @@ name: WPShop
 main: bonana\Main
 api: 4.0.0
 
-version: 0.0.1
-description: A shop Plugin
-
+version: 1.0.0
+description: A shop plugin
 
 permissions:
   shop.command:
-    description: Open SHOP UI
+    description: Open shop UI
     default: true
   xp.command.give:
     description: Give a player XP
