@@ -486,15 +486,15 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(17, $gcarrot);
         $inventory->setItem(49, $back);
 
-        $foodmenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
+        $foodmenu->setListener(function (InvMenuTransaction $tr) use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            if($item->getId() == 262){
+            if ($item->getId() == 262) {
                 $this->mainMenu($player);
             } else {
                 $this->openPurchaseMenu($item, $player);
             }
-            if($callable !== null){
+            if ($callable !== null) {
                 return $callable($tr);
             }
             return $tr->discard();
