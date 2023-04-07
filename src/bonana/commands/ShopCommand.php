@@ -1,5 +1,4 @@
 <?php
-
 namespace bonana\commands;
 
 use pocketmine\command\Command;
@@ -29,10 +28,10 @@ class ShopCommand extends Command implements PluginOwned {
     private $imenu;
 
     public function __construct(Main $plugin) {
-	    $this->owningPlugin = $plugin;
-    	parent::__construct("shop", "Open Shop", "/shop");
-	    $this->setPermission("shop.command");
-	    $this->setDescription("Open Shop!");
+	$this->owningPlugin = $plugin;
+	parent::__construct("shop", "Open Shop", "/shop");
+	$this->setPermission("shop.command");
+	$this->setDescription("Open Shop!");
         $this->config = $plugin->getConfig()->getAll();
     }
 
