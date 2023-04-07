@@ -1,5 +1,4 @@
 <?php
-
 namespace bonana\commands;
 
 use pocketmine\command\Command;
@@ -23,24 +22,22 @@ use pocketmine\item\ItemIds;
 use bonana\Main;
 
 class ShopCommand extends Command implements PluginOwned {
-
     use PluginOwnedTrait;
-	private array $config;
+    private array $config;
     private $iitem;
     private $imenu;
 
-	public function __construct(Main $plugin) {
-		$this->owningPlugin = $plugin;
-		parent::__construct("shop", "Open Shop", "/shop");
-		$this->setPermission("shop.command");
-		$this->setDescription("Open Shop!");
+    public function __construct(Main $plugin) {
+	$this->owningPlugin = $plugin;
+	parent::__construct("shop", "Open Shop", "/shop");
+	$this->setPermission("shop.command");
+	$this->setDescription("Open Shop!");
         $this->config = $plugin->getConfig()->getAll();
-	}
-
-	public function execute(CommandSender $sender, string $commandLabel, array $args, ?callable $callable = null): void {
-        $this->mainMenu($sender);
     }
 
+    public function execute(CommandSender $sender, string $commandLabel, array $args, ?callable $callable = null): void {
+        $this->mainMenu($sender);
+    }
 
     public function mainMenu(Player $player, ?callable $callable = null){
         $menu = InvMenu::create(InvMenu::TYPE_CHEST);
@@ -61,11 +58,11 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(1, $armorcat);
         $inventory->setItem(2, $foodcat);
 
-        $menu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
+        $menu->setListener (function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
 
-            switch($item->getId()){
+            switch ($item->getId()) {
                 case ItemIds::GRASS:
                     $this->blockMenu($player);
                     break;
@@ -78,7 +75,7 @@ class ShopCommand extends Command implements PluginOwned {
             }
 
 
-            if($callable !== null){
+            if ($callable !== null) {
                 return $callable($tr);
             }
             return $tr->discard();
@@ -208,8 +205,6 @@ class ShopCommand extends Command implements PluginOwned {
         $dia_boots = VI::DIAMOND_BOOTS();
         $dia_boots->setCustomName("§r§l§7[§r§c Diamond Boots §r§l§7]§r");
 
-
-
         $dia_sword = VI::DIAMOND_SWORD();
         $dia_sword->setCustomName("§r§l§7[§r§c Diamond Sword §r§l§7]§r");
         $dia_axe = VI::DIAMOND_AXE();
@@ -246,8 +241,6 @@ class ShopCommand extends Command implements PluginOwned {
 
         $back = VI::ARROW();
         $back->setCustomName("§l§c<- Back");
-
-
 
         $inventory->setItem(9, $leather_helmet);
         $inventory->setItem(18, $leather_chestplace);
@@ -292,12 +285,14 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(44, $stone_sword);
 
 
-        for($x = 0; $x < 9; $x++) {
+        for ($x = 0; $x < 9; $x++) {
             $inventory->setItem($x, $glass);
         }
-        for($x = 45; $x < 54; $x++) {
+
+        for ($x = 45; $x < 54; $x++) {
             $inventory->setItem($x, $glass);
         }
+
         $inventory->setItem(5, $glass);
         $inventory->setItem(14, $glass);
         $inventory->setItem(23, $glass);
@@ -389,8 +384,8 @@ class ShopCommand extends Command implements PluginOwned {
             return $tr->discard();
         });
         return $purchasemenu->send($player);
-
     }
+
     public function confirmPurchase($item, Player $player, $amount, $menu){
         $id = $item->getId();   
         $cost = $this->config["cost"][$id];
@@ -400,7 +395,6 @@ class ShopCommand extends Command implements PluginOwned {
 
         $playerInventory = $player->getInventory();
         $contents = $playerInventory->getContents();
-
 
         $playerX = $player->getPosition()->getX();
         $playerY = $player->getPosition()->getY();
@@ -421,9 +415,7 @@ class ShopCommand extends Command implements PluginOwned {
                 InvMenuHandler::getPlayerManager()->get($player)->removeCurrentMenu();
                 $player->sendMessage(TF::RED . "Your inventory is full!");
             }
-           }
-
-
+        }
     }
     public function foodMenu(Player $player, ?callable $callable = null){
         $foodmenu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
@@ -493,22 +485,19 @@ class ShopCommand extends Command implements PluginOwned {
         $inventory->setItem(17, $gcarrot);
         $inventory->setItem(49, $back);
 
-        $foodmenu->setListener(function (InvMenuTransaction $tr)use($callable): InvMenuTransactionResult{
+        $foodmenu->setListener(function (InvMenuTransaction $tr) use($callable): InvMenuTransactionResult{
             $player = $tr->getPlayer();
             $item = $tr->getItemClicked();
-            if($item->getId() == 262){
+            if ($item->getId() == 262) {
                 $this->mainMenu($player);
             } else {
                 $this->openPurchaseMenu($item, $player);
             }
-            if($callable !== null){
+            if ($callable !== null) {
                 return $callable($tr);
             }
             return $tr->discard();
         });
         return $foodmenu->send($player);
-
-
     }
-
 }
