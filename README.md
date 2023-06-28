@@ -1,4 +1,4 @@
-# It's not finished (no really working on it!)
+# It's not finished (stopped working on it kekw!)
 
 ```diff
 It's about 80% done
