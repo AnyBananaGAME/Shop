@@ -2,7 +2,7 @@
 
 ```diff
 It's about 80% done
-+ OtterECO support is added but not yet pushed 
+OtterEco intergration is very simple!
 
 It is stable rn? I think 
 Prob not the best idea to use it as this is my first public plugin
